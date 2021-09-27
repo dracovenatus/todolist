@@ -1,37 +1,22 @@
 import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import {ComponentStory, ComponentMeta} from '@storybook/react';
+import {AddItemForm} from "./AddItemForm";
+import {action} from "@storybook/addon-actions";
 
-import { Button } from './Button';
 
 export default {
-    title: 'Example/Button',
-    component: Button,
+    title: 'TODOLIST/AddItemForm',
+    component: AddItemForm,
     argTypes: {
-        backgroundColor: { control: 'color' },
+        addItem: {
+            description: 'callback'
+        },
     },
-} as ComponentMeta<typeof Button>;
+} as ComponentMeta<typeof AddItemForm>;
 
-const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
+const AddItemFormTemplate: ComponentStory<typeof AddItemForm> = (args) => <AddItemForm {...args} />;
 
-export const Primary = Template.bind({});
-Primary.args = {
-    primary: true,
-    label: 'Button',
-};
-
-export const Secondary = Template.bind({});
-Secondary.args = {
-    label: 'Button',
-};
-
-export const Large = Template.bind({});
-Large.args = {
-    size: 'large',
-    label: 'Button',
-};
-
-export const Small = Template.bind({});
-Small.args = {
-    size: 'small',
-    label: 'Button',
+export const AddItemFormStory = AddItemFormTemplate.bind({});
+AddItemFormStory.args = {
+    addItem: action('Button clicked')
 };

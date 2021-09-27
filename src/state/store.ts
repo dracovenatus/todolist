@@ -1,6 +1,7 @@
-import {combineReducers, createStore} from "redux";
+
 import {tasksReducer} from "./tasks-reducer";
 import {todolistsReducer} from "./todolists-reducer";
+import {combineReducers, createStore} from "redux";
 
 //корневой reducer который получает все action-ы и раскидывает дальше по всем редьюсерам
 const rootReducer = combineReducers({

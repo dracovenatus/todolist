@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import './App.css';
 import {AddItemForm} from "./AddItemForm";
-import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
+
 import {Menu} from "@material-ui/icons";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
 import {
@@ -12,6 +12,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
 import {TaskType, TodoList} from "./TodoList";
 import {FilterValuesType} from "./App";
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 
 export type TasksFilterType = "all" | "active" | "completed"
 
