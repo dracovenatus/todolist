@@ -9,10 +9,11 @@ import {
     removeTodolistAC
 } from "./state/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "./state/store";
+
 import {TaskType, TodoList} from "./TodoList";
 import {FilterValuesType} from "./App";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
+import {AppRootStateType} from "./state/store";
 
 export type TasksFilterType = "all" | "active" | "completed"
 
@@ -30,8 +31,8 @@ function AppWithRedux() {
 
 
     const dispatch = useDispatch()
-    const todolists = useSelector<AppRootState, Array<TodolistType>>(state => state.todolists)
-    const tasks = useSelector<AppRootState, TasksStateType>(state => state.tasks)
+    const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists)
+    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
 
 
