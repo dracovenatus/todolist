@@ -1,12 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import axios from 'axios';
-
-const settings = {
-    withCredentials: true,
-    headers: {
-        "api-key" : "bcdd4faf-f5b8-4f33-8a06-1a47aa179469"
-    }
-}
+import {todolistsAPI} from "../api/todolists-api";
 
 
 export default {
@@ -19,13 +12,10 @@ export const GetTodolists = () => {
         // здесь мы будем делать запрос и ответ закидывать в стейт.
         // который в виде строки будем отображать в div-ке
 
-        axios.get('https://social-network.samuraijs.com/api/1.1/todo-lists', settings)
-            .then((res) => {
-                setState(res.data);
+        todolistsAPI.getTodolists()
+            .then((response) => {
+               setState(response.data)
             })
-
-
-
     }, [])
 
     return <div> {JSON.stringify(state)}</div>
@@ -33,9 +23,9 @@ export const GetTodolists = () => {
 export const CreateTodolist = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        axios.post('https://social-network.samuraijs.com/api/1.1/todo-lists', {title: "newTodolist"}, settings)
-            .then((res) => {
-                setState(res.data);
+        todolistsAPI.createTodolist("miumiu todolist")
+            .then((response) => {
+                setState(response.data)
             })
     }, [])
 
@@ -43,8 +33,11 @@ export const CreateTodolist = () => {
 }
 export const DeleteTodolist = () => {
     const [state, setState] = useState<any>(null)
-    const todolistId = '';
     useEffect(() => {
+        todolistsAPI.deleteTodolist(  "389c0164-435c-4eeb-bd20-6c89322fd63d")
+            .then((response) => {
+                setState(response.data)
+            })
     }, [])
 
     return <div> {JSON.stringify(state)}</div>
@@ -52,6 +45,11 @@ export const DeleteTodolist = () => {
 export const UpdateTodolistTitle = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
+        todolistsAPI.updateTodolistTitle("80e1af21-0195-4b71-b0e6-b4fd1097e648", "New miumiu todolist")
+            .then((response) => {
+                debugger
+                setState(response.data)
+            })
     }, [])
 
     return <div> {JSON.stringify(state)}</div>
