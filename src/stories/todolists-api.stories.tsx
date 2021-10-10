@@ -107,7 +107,8 @@ export const CreateTask = () => {
         todolistsAPI.createTask(todolistId, taskTitle)
             .then((response) => {
                 debugger
-                setState(response.data)
+                //изначально было response.data
+                setState(response.data.data.item)
             })
     }
 
@@ -138,9 +139,16 @@ export const UpdateTask = () => {
     const [taskId, setTaskId] = useState<string>('')
 
     const updateTask = () => {
-        todolistsAPI.updateTaskTitle(todolistId, taskId, {title: taskTitle})
+        todolistsAPI.updateTask(todolistId, taskId, {
+            completed: completed,
+            deadline: deadline,
+            description: description,
+            priority: priority,
+            startDate: startDate,
+            status: status,
+            title: taskTitle
+        })
             .then((response) => {
-                debugger
                 setState(response.data)
             })
     }
@@ -150,8 +158,11 @@ export const UpdateTask = () => {
             <input placeholder={"todolist id"} value={todolistId}
                    onChange={(e) => setTodolistId(e.currentTarget.value)}/>
             <input placeholder={"task id"} value={taskId} onChange={(e) => setTaskId(e.currentTarget.value)}/>
-            <input placeholder={"task title"} value={taskTitle}
-                   onChange={(e) => setTaskTitle(e.currentTarget.value)}/>
+            <input placeholder={"task title"} value={taskTitle} onChange={(e) => setTaskTitle(e.currentTarget.value)}/>
+            <input placeholder={"Description"} value={description} onChange={(e) => setDescription(e.currentTarget.value)}/>
+           {/* <input placeholder={"is done?"} value={completed} onChange={(e) => setCompleted(e.currentTarget.value)}/>*/}
+            <input placeholder={"status"} value={status} type={"number"} onChange={(e) => setStatus(+e.currentTarget.value)}/>
+            <input placeholder={"priority"} value={priority} type={"number"} onChange={(e) => setPriority(+e.currentTarget.value)}/>
 
             <button onClick={updateTask}>update task</button>
         </div>
