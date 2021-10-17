@@ -3,6 +3,7 @@ import {ComponentStory, ComponentMeta} from '@storybook/react';
 import {AddItemForm} from "./AddItemForm";
 import {action} from "@storybook/addon-actions";
 import {Task} from "./Task";
+import { TaskStatuses } from './api/todolists-api';
 
 const changeTaskStatusCallback = action('Status changed')
 const changeTaskTitleCallback = action('Title changed')
@@ -26,7 +27,7 @@ TaskIsDoneStory.args = {
     taskId: '1',
     todolistId: 'todolistId1',
     title: 'JS',
-    isDone: false
+    status: TaskStatuses.New
 };
 
 export const TaskIsNotDoneStory = TaskTemplate.bind({});
@@ -34,5 +35,5 @@ TaskIsNotDoneStory.args = {
     taskId: '2',
     todolistId: 'todolistId1',
     title: 'HTML',
-    isDone: true
+    status: TaskStatuses.Completed
 };

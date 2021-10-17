@@ -55,7 +55,7 @@ export enum TaskPriorities {
 }
 
 
-type TaskType = {
+export type TaskType = {
     description: string
     title: string
     status: TaskStatuses

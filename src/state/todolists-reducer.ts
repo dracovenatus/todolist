@@ -41,7 +41,7 @@ export type TodolistDomainType = TodolistType & {
     filter: FilterValuesType
 }
 
-//когда при инициализации приложения стейта ещё не будет, возьми initialState
+
 export const todolistsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionsType): Array<TodolistDomainType> => {
     switch (action.type) {
 
