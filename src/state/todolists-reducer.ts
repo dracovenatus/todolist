@@ -6,6 +6,7 @@ type ActionsType =
     | AddTodolistActionType
     | ChangeTodolistTitleActionType
     | ChangeTodolistFilterActionType
+    | SetTodolistsActionType
 
 export type RemoveTodolistActionType = {
     type: 'REMOVE-TODOLIST'
@@ -26,6 +27,10 @@ export type ChangeTodolistFilterActionType = {
     id: string
     filter: FilterValuesType
 }
+export type SetTodolistsActionType = {
+    type: 'SET-TODOLISTS',
+    todolists: Array<TodolistType>
+}
 
 
 const initialState: Array<TodolistDomainType> = []
@@ -33,7 +38,7 @@ const initialState: Array<TodolistDomainType> = []
 export type FilterValuesType = 'all' | 'active' | 'completed';
 
 export type TodolistDomainType = TodolistType & {
-filter: FilterValuesType
+    filter: FilterValuesType
 }
 
 //когда при инициализации приложения стейта ещё не будет, возьми initialState
@@ -70,8 +75,17 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
             }
             return endState;
         }
+        case "SET-TODOLISTS": {
+            return action.todolists.map(tl => {
+                return {
+                    ...tl,
+                    filter: "all"
+                }
+            })
+        }
 
-        default: return state
+        default:
+            return state
     }
 }
 
@@ -95,3 +109,8 @@ export const changeTodolistFilterAC = (id: string, filter: FilterValuesType): Ch
         filter: filter
     }
 }
+
+export const setTodolistsAC = (todolists: Array<TodolistType>): SetTodolistsActionType => {
+    return {type: "SET-TODOLISTS", todolists}
+}
+
