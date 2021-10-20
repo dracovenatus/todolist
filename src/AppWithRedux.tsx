@@ -3,19 +3,21 @@ import './App.css';
 import { AddItemForm } from "./AddItemForm";
 
 import { Menu } from "@material-ui/icons";
-import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from "./state/tasks-reducer";
+import { addTaskThunkCreator, removeTaskThunkCreator, updateTaskThunkCreator } from "./state/tasks-reducer";
 import {
-    addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC,
+    addTodolistAC, addTodolistThunkCreator, changeTodolistFilterAC, changeTodolistTitleAC,
+    changeTodolistTitleThunkCreator,
     fetchTodolistsThunkCreator,
     FilterValuesType,
     removeTodolistAC,
+    removeTodolistThunkCreator,
     TodolistDomainType
 } from "./state/todolists-reducer";
 import { useDispatch, useSelector } from "react-redux";
 import { TodoList } from "./TodoList";
 import { AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@material-ui/core";
 import { AppRootStateType } from "./state/store";
-import { TaskStatuses, TaskType } from './api/todolists-api';
+import { TaskStatuses, TaskType, todolistsAPI } from './api/todolists-api';
 
 
 
@@ -45,38 +47,38 @@ function AppWithRedux() {
 
 
     const removeTask = useCallback((todolistId: string, taskId: string) => {
-
-        dispatch(removeTaskAC(todolistId, taskId))
+       
+        dispatch(removeTaskThunkCreator(todolistId, taskId))
 
     }, [dispatch])
 
 
     const addTask = useCallback((todolistId: string, newTaskTitle: string) => {
 
-        dispatch(addTaskAC(todolistId, newTaskTitle))
+        dispatch(addTaskThunkCreator(todolistId, newTaskTitle))
     }, [dispatch])
 
-    const changeTaskTitle = useCallback((todolistId: string, taskId: string, newTitle: string) => {
+   const changeTaskTitle = useCallback((todolistId: string, taskId: string, newTitle: string) => {
 
-        dispatch(changeTaskTitleAC(todolistId, taskId, newTitle))
+        dispatch(updateTaskThunkCreator(todolistId, taskId, {title: newTitle}))
 
     }, [dispatch])
 
     const changeTaskStatus = useCallback((todolistId: string, taskId: string, status: TaskStatuses) => {
 
-        dispatch(changeTaskStatusAC(todolistId, taskId, status))
+        dispatch(updateTaskThunkCreator(todolistId, taskId, {status}))
 
     }, [dispatch])
 
     const removeTodolist = useCallback((todolistId: string) => {
 
-        dispatch(removeTodolistAC(todolistId))
+        dispatch(removeTodolistThunkCreator(todolistId))
 
     }, [dispatch])
 
     const addTodoList = useCallback((title: string) => {
 
-        const action = addTodolistAC(title)
+        const action = addTodolistThunkCreator(title)
 
         dispatch(action)
 
@@ -84,7 +86,7 @@ function AppWithRedux() {
 
     const changeTodolistTitle = useCallback((todolistId: string, newTitle: string) => {
 
-        dispatch(changeTodolistTitleAC(todolistId, newTitle))
+        dispatch(changeTodolistTitleThunkCreator(todolistId, newTitle))
 
     }, [dispatch])
 

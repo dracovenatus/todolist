@@ -5,7 +5,7 @@ import { v1 } from "uuid";
 import { AddItemForm } from "./AddItemForm";
 import { AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
-import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from "./state/tasks-reducer";
+import { addTaskAC, removeTaskAC, tasksReducer, updateTaskAC } from "./state/tasks-reducer";
 import {
     addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC,
     FilterValuesType,
@@ -71,18 +71,29 @@ function AppWithReducers() {
 
     const addTask = (todolistId: string, newTaskTitle: string) => {
 
-        dispatchToTasksReducer(addTaskAC(todolistId, newTaskTitle))
+        dispatchToTasksReducer(addTaskAC({
+            id: v1(),
+            title: newTaskTitle,
+            status: TaskStatuses.New,
+            todoListId: todolistId,
+            description: '',
+            startDate: '',
+            deadline: '',
+            addedDate: '',
+            order: 0,
+            priority: TaskPriorities.Low
+        }))
     }
 
     const changeTaskTitle = (todolistId: string, taskId: string, newTitle: string) => {
 
-        dispatchToTasksReducer(changeTaskTitleAC(todolistId, taskId, newTitle))
+        dispatchToTasksReducer(updateTaskAC(todolistId, taskId, {title: newTitle}))
 
     }
 
     const changeTaskStatus = (todolistId: string, taskId: string, status: TaskStatuses) => {
 
-        dispatchToTasksReducer(changeTaskStatusAC(todolistId, taskId, status))
+        dispatchToTasksReducer(updateTaskAC(todolistId, taskId, {status}))
 
     }
 
@@ -96,7 +107,12 @@ function AppWithReducers() {
 
     function addTodoList(title: string) {
 
-        const action = addTodolistAC(title)
+        const action = addTodolistAC({
+            id: v1(),
+            title: title,
+            addedDate: '',
+            order: 0
+        })
 
         dispatchToTodolistsReducer(action)
 
