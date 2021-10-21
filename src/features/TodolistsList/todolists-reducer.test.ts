@@ -36,7 +36,7 @@ test('correct todolist should be added', () => {
 
 
     let newTodolist =  {
-        id: v1(),
+        id: "any id",
         title:  "New Todolist",
         addedDate: '',
         order: 0
@@ -46,6 +46,7 @@ test('correct todolist should be added', () => {
 
     expect(endState.length).toBe(3);
     expect(endState[0].title).toBe(newTodolist.title);
+    expect(endState[0].filter).toBe("all");
 });
 
 test('correct todolist should change its name', () => {

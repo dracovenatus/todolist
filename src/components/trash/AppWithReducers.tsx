@@ -1,17 +1,12 @@
-import React, { useReducer, useState } from 'react';
-import './App.css';
-import { TodoList } from "./TodoList";
-import { v1 } from "uuid";
-import { AddItemForm } from "./AddItemForm";
-import { AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from '@material-ui/core';
 import { Menu } from "@material-ui/icons";
-import { addTaskAC, removeTaskAC, tasksReducer, updateTaskAC } from "./state/tasks-reducer";
-import {
-    addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC,
-    FilterValuesType,
-    removeTodolistAC, todolistsReducer
-} from "./state/todolists-reducer";
-import { TaskPriorities, TaskStatuses, TaskType } from './api/todolists-api';
+import React, { useReducer, useState } from 'react';
+import { v1 } from 'uuid';
+import { TaskPriorities, TaskStatuses, TaskType } from '../../api/todolists-api';
+import { addTaskAC, removeTaskAC, tasksReducer, updateTaskAC } from '../../features/TodolistsList/tasks-reducer';
+import { TodoList } from '../../features/TodolistsList/Todolist/TodoList';
+import { AddItemForm } from '../AddItemForm/AddItemForm';
+import { addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, FilterValuesType, removeTodolistAC, todolistsReducer } from '../../features/TodolistsList/todolists-reducer';
 
 
 type TasksStateType = {
@@ -154,10 +149,10 @@ function AppWithReducers() {
                             let tasksForTodolist = allTodolistTasks
 
                             if (td.filter === "active") {
-                                tasksForTodolist = allTodolistTasks.filter(t => t.status === TaskStatuses.New)
+                                tasksForTodolist = allTodolistTasks.filter(task => task.status === TaskStatuses.New)
                             }
                             if (td.filter === "completed") {
-                                tasksForTodolist = allTodolistTasks.filter(t => t.status === TaskStatuses.Completed)
+                                tasksForTodolist = allTodolistTasks.filter(task => task.status === TaskStatuses.Completed)
                             }
                             return <Grid item>
                                 <Paper style={{ padding: "10px" }}>

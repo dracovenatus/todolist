@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import './App.css';
-import { TodoList } from './TodoList';
 import { v1 } from 'uuid';
-import { AddItemForm } from './AddItemForm';
 import { AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
-import { TaskPriorities, TaskStatuses, TaskType } from './api/todolists-api';
-import { FilterValuesType, TodolistDomainType } from './state/todolists-reducer';
+import { TaskPriorities, TaskStatuses, TaskType } from '../../api/todolists-api';
+import { AddItemForm } from '../AddItemForm/AddItemForm';
+import { TodoList } from '../../features/TodolistsList/Todolist/TodoList';
+import { FilterValuesType, TodolistDomainType } from '../../features/TodolistsList/todolists-reducer';
 
-export type TasksStateType = {
+
+ type TasksStateType = {
     // объект может иметь свойства-ключи, которые строковые
     // (а ключи вообще в объекте и не могут быть иными),
     // а вот значения этих св-в это массив объектов TaskPropsType
     [key: string]: Array<TaskType>
 }
 
-function App() {
+export function AppFirstExample() {
 
     let todoList1 = v1()
     let todoList2 = v1()
@@ -178,4 +179,4 @@ function App() {
     );
 }
 
-export default App;
+
