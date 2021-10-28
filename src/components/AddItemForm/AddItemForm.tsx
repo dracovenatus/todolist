@@ -3,13 +3,14 @@ import {IconButton, TextField} from "@material-ui/core";
 import {AddBox, ControlPoint} from "@material-ui/icons";
 
 type AddItemFormPropsType = {
-    addItem: (title: string) => void
+    addItem: (title: string) => void,
+    disabled?: boolean 
 }
 
-export const AddItemForm = React.memo(function(props: AddItemFormPropsType) {
+export const AddItemForm = React.memo(function({addItem, disabled = false}: AddItemFormPropsType) {
     console.log("AddItemForm")
     let [title, setTitle] = useState('')
-    //let [error, setError] = useState('')
+
 
     const [error, setError] = useState<null | string>(null)
 
@@ -18,9 +19,9 @@ export const AddItemForm = React.memo(function(props: AddItemFormPropsType) {
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     };
-    const addItem = () => {
+    const addItemHandler = () => {
         if (trimmedTitle) {
-            props.addItem(trimmedTitle);
+            addItem(trimmedTitle);
             setTitle('')
         } else {
             setError('Название не может быть пустым')
@@ -34,7 +35,7 @@ export const AddItemForm = React.memo(function(props: AddItemFormPropsType) {
         }
 
         if (e.charCode === 13) {
-            addItem()
+            addItemHandler()
         }
     };
 
@@ -43,6 +44,7 @@ export const AddItemForm = React.memo(function(props: AddItemFormPropsType) {
         <div>
             <TextField
                 variant={"outlined"}
+                disabled={disabled}
                 label={'Title'}
                 value={title}
                 onChange={inputChangeHandler}
@@ -52,12 +54,11 @@ export const AddItemForm = React.memo(function(props: AddItemFormPropsType) {
             />
             <IconButton
                 color={'primary'}
-                onClick={addItem}
+                onClick={addItemHandler}
+                disabled={disabled}
             >
-               {/* <AddBox />*/}
                 <ControlPoint />
             </IconButton>
-        {/*    {error && <div className={'error-message'}>{error}</div>}*/}
         </div>
     )
 } )

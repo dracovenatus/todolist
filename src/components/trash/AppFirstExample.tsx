@@ -9,7 +9,7 @@ import { TodoList } from '../../features/TodolistsList/Todolist/TodoList';
 import { FilterValuesType, TodolistDomainType } from '../../features/TodolistsList/todolists-reducer';
 
 
- type TasksStateType = {
+type TasksStateType = {
     // объект может иметь свойства-ключи, которые строковые
     // (а ключи вообще в объекте и не могут быть иными),
     // а вот значения этих св-в это массив объектов TaskPropsType
@@ -54,7 +54,7 @@ export function AppFirstExample() {
 
     let [todoLists, setTodoLists] = useState<Array<TodolistDomainType>>([
         { id: todoList1, title: 'What to learn', filter: 'all', addedDate: '', order: 0, entityStatus: 'idle' },
-        { id: todoList2, title: 'What to buy', filter: 'all', addedDate: '', order: 0 , entityStatus: 'idle'}
+        { id: todoList2, title: 'What to buy', filter: 'all', addedDate: '', order: 0, entityStatus: 'idle' }
     ])
 
     function removeTask(id: string, todoListID: string) {
@@ -63,8 +63,10 @@ export function AppFirstExample() {
     }
 
     function addTask(title: string, todoListID: string) {
-        let newTask = { id: v1(), title: title, status: TaskStatuses.New,  todoListId: todoListID, description: '', startDate: '', deadline: '', addedDate: '',
-        order: 0, priority: TaskPriorities.Low }
+        let newTask = {
+            id: v1(), title: title, status: TaskStatuses.New, todoListId: todoListID, description: '', startDate: '', deadline: '', addedDate: '',
+            order: 0, priority: TaskPriorities.Low
+        }
         tasks[todoListID] = [newTask, ...tasks[todoListID]]
         setTasks({ ...tasks })
     }
@@ -154,8 +156,7 @@ export function AppFirstExample() {
                                     <Paper style={{ padding: '10px' }}>
                                         <TodoList
                                             key={tl.id}
-                                            id={tl.id}
-                                            title={tl.title}
+                                            todolist={tl}
                                             tasks={tasksForTodoList}
                                             addTask={addTask}
                                             removeTask={removeTask}
@@ -164,7 +165,6 @@ export function AppFirstExample() {
                                             changeTaskTitle={changeTaskTitle}
                                             changeTodolistTitle={changeTodoListTitle}
                                             removeTodolist={removeTodoList}
-                                            filter={tl.filter}
                                         />
                                     </Paper>
                                 </Grid>

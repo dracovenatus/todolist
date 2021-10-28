@@ -15,10 +15,12 @@ import { TaskStatuses } from '../../api/todolists-api';
 import { AddItemForm } from '../../components/AddItemForm/AddItemForm';
 import { TodoList } from './Todolist/TodoList';
 
+type PropsType = {
+    demo?: boolean
+}
 
 
-
-const TodolistsList: React.FC = () => {
+const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
 
 
     const dispatch = useDispatch()
@@ -26,6 +28,7 @@ const TodolistsList: React.FC = () => {
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
     useEffect(() => {
+        if (demo) { return }
         dispatch(fetchTodolistsThunkCreator())
     }, [])
 
@@ -92,13 +95,11 @@ const TodolistsList: React.FC = () => {
                     let allTodolistTasks = tasks[td.id]
 
 
-                    return <Grid item>
+                    return <Grid item key={td.id}>
                         <Paper style={{ padding: "10px" }}>
-                            <TodoList key={td.id}
-                                id={td.id}
-                                title={td.title}
+                            <TodoList 
+                                todolist={td}
                                 tasks={allTodolistTasks}
-                                filter={td.filter}
                                 removeTask={removeTask}
                                 changeFilter={changeFilter}
                                 addTask={addTask}
@@ -106,6 +107,7 @@ const TodolistsList: React.FC = () => {
                                 removeTodolist={removeTodolist}
                                 changeTaskTitle={changeTaskTitle}
                                 changeTodolistTitle={changeTodolistTitle}
+                                demo={demo}
                             />
                         </Paper>
                     </Grid>

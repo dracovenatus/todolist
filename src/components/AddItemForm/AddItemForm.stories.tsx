@@ -20,3 +20,11 @@ export const AddItemFormStory = AddItemFormTemplate.bind({});
 AddItemFormStory.args = {
     addItem: action('Button clicked')
 };
+
+const AddItemFormDisabledExample: ComponentStory<typeof AddItemForm> = (args) => <AddItemForm {...args} />;
+
+export const  AddItemFormDisabledStory = AddItemFormDisabledExample.bind({});
+AddItemFormDisabledStory.args = {
+    disabled: true,
+    addItem: action('Button clicked')
+};
