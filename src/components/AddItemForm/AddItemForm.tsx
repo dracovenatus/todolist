@@ -43,7 +43,7 @@ export const AddItemForm = React.memo(function(props: AddItemFormPropsType) {
         <div>
             <TextField
                 variant={"outlined"}
-                label={'Введите название задачи'}
+                label={'Title'}
                 value={title}
                 onChange={inputChangeHandler}
                 onKeyPress={onKeyPressHandler}

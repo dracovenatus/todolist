@@ -1,5 +1,7 @@
+
 import { TodolistType, todolistsAPI } from './../../api/todolists-api';
 import { Dispatch } from "redux";
+import { RequestStatusType, setStatusAC, SetStatusActionType } from '../../app/app-reducer';
 
 
 
@@ -16,12 +18,14 @@ type ActionsType =
     | ReturnType<typeof changeTodolistTitleAC>
     | ChangeTodolistFilterActionType
     | SetTodolistsActionType
+    | SetStatusActionType
 
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 
 export type TodolistDomainType = TodolistType & {
-    filter: FilterValuesType
+    filter: FilterValuesType,
+    entityStatus: RequestStatusType
 }
 
 const initialState: Array<TodolistDomainType> = []
@@ -35,7 +39,8 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
         case 'ADD-TODOLIST':
             let newTodoList: TodolistDomainType = {
                 ...action.todolist,
-                filter: 'all'
+                filter: 'all',
+                entityStatus: 'idle'
             }
             return [newTodoList, ...state];
 
@@ -46,7 +51,7 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
             return state.map(tl => tl.id === action.id ? {...tl, filter: action.filter} : tl);
         
         case "SET-TODOLISTS": 
-            return action.todolists.map( tl => ({ ...tl,filter: "all" }) )
+            return action.todolists.map( tl => ({ ...tl,filter: "all", entityStatus: 'idle' }) )
         
 
         default:
@@ -71,9 +76,11 @@ export const setTodolistsAC = (todolists: Array<TodolistType>) => ({ type: "SET-
 export const fetchTodolistsThunkCreator = () => {
 
     return (dispatch: Dispatch<ActionsType>) => {
+        dispatch(setStatusAC('loading'))
         todolistsAPI.getTodolists()
             .then((res) => {
                 dispatch(setTodolistsAC(res.data))
+                dispatch(setStatusAC('succeeded'))
             })
     }
 }
@@ -82,9 +89,11 @@ export const fetchTodolistsThunkCreator = () => {
 export const removeTodolistThunkCreator = (todolistId: string) => {
 
     return (dispatch: Dispatch<ActionsType>) => {
+        dispatch(setStatusAC('loading'))
         todolistsAPI.deleteTodolist(todolistId)
             .then((res) => {
                 dispatch(removeTodolistAC(todolistId))
+                dispatch(setStatusAC('succeeded'))
             })
     }
 }
@@ -92,9 +101,11 @@ export const removeTodolistThunkCreator = (todolistId: string) => {
 export const addTodolistThunkCreator = (title: string) => {
 
     return (dispatch: Dispatch<ActionsType>) => {
+        dispatch(setStatusAC('loading'))
         todolistsAPI.createTodolist(title)
             .then((res) => {
                 dispatch(addTodolistAC(res.data.data.item))
+                dispatch(setStatusAC('succeeded'))
             })
     }
 }

@@ -1,3 +1,4 @@
+import { appReducer } from './app-reducer';
 import {tasksReducer} from "../features/TodolistsList/tasks-reducer";
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunkMiddleware from 'redux-thunk';
@@ -6,7 +7,8 @@ import { todolistsReducer } from "../features/TodolistsList/todolists-reducer";
 //корневой reducer который получает все action-ы и раскидывает дальше по всем редьюсерам
 const rootReducer = combineReducers({
     todolists: todolistsReducer,
-    tasks: tasksReducer
+    tasks: tasksReducer,
+    app: appReducer
 })
 
 //создаёт тип на основе анализа того что rootReducer возвращает
