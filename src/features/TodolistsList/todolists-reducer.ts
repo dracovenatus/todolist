@@ -1,6 +1,6 @@
 import { TodolistType, todolistsAPI } from './../../api/todolists-api';
 import { Dispatch } from "redux";
-import { RequestStatusType, setAppStatusAC, SetStatusActionType } from '../../app/app-reducer';
+import { RequestStatusType, setAppStatusAC, SetAppStatusActionType } from '../../app/app-reducer';
 
 
 
@@ -18,7 +18,7 @@ type ActionsType =
     | ReturnType<typeof changeTodolistTitleAC>
     | ChangeTodolistFilterActionType
     | SetTodolistsActionType
-    | SetStatusActionType
+    | SetAppStatusActionType
     | ReturnType<typeof changeTodolistEntityStatusAC>
 
 
@@ -125,9 +125,11 @@ export const addTodolistThunkCreator = (title: string) => {
 export const changeTodolistTitleThunkCreator = (todolistId: string, newTitle: string) => {
 
     return (dispatch: Dispatch<ActionsType>) => {
+        dispatch(setAppStatusAC('loading'))
         todolistsAPI.updateTodolistTitle(todolistId, newTitle)
             .then((res) => {
                 dispatch(changeTodolistTitleAC(todolistId, newTitle))
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 }
