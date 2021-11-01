@@ -7,22 +7,25 @@ import { ErrorSnackbar } from '../components/ErrorSnackbar/ErrorSnackbar';
 import { useSelector } from 'react-redux';
 import { AppRootStateType } from './store';
 import { RequestStatusType } from './app-reducer';
+import { BrowserRouter } from 'react-router-dom';
+import { Login } from '../features/Login/Login';
+import {Route} from 'react-router';
 
 
-
-type PropsType ={
+type PropsType = {
     demo?: boolean
 }
 
-function App({demo = false}: PropsType) {
-const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
+function App({ demo = false }: PropsType) {
+    const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
 
 
     return (
+        <BrowserRouter>
         <div className="App">
-              < ErrorSnackbar/>
+            < ErrorSnackbar />
             <AppBar position="static">
-         
+
                 <Toolbar>
                     <IconButton
                         edge="start"
@@ -36,12 +39,15 @@ const status = useSelector<AppRootStateType, RequestStatusType>((state) => state
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
-              {status === 'loading' &&  <LinearProgress />}
+                {status === 'loading' && <LinearProgress />}
             </AppBar>
             <Container fixed>
-                <TodolistsList demo={demo}/>
+                <Route path={'/login'} render={() => <Login/> }/>
+                <Route exact path={'/'} render={() =>  <TodolistsList demo={demo} /> }/>
+          
             </Container>
         </div>
+        </BrowserRouter>
     )
 }
 
