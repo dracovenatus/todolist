@@ -14,6 +14,7 @@ import { addTaskThunkCreator, removeTaskThunkCreator, TasksStateType, updateTask
 import { TaskStatuses } from '../../api/todolists-api';
 import { AddItemForm } from '../../components/AddItemForm/AddItemForm';
 import { TodoList } from './Todolist/TodoList';
+import { Redirect } from 'react-router';
 
 type PropsType = {
     demo?: boolean
@@ -26,9 +27,11 @@ const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
     const dispatch = useDispatch()
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
 
+   
     useEffect(() => {
-        if (demo) { return }
+        if (demo || !isLoggedIn) { return }
         dispatch(fetchTodolistsThunkCreator())
     }, [])
 
@@ -84,6 +87,14 @@ const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
         dispatch(changeTodolistTitleThunkCreator(todolistId, newTitle))
 
     }, [dispatch])
+
+
+
+
+    if(!isLoggedIn) {
+        return <Redirect to={'/login'} />
+    }
+
 
     return <>
         <Grid container spacing={3} style={{ padding: "20px" }}>

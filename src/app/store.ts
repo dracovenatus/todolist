@@ -1,3 +1,4 @@
+import { authReducer } from './../features/Login/auth-reducer';
 import { appReducer } from './app-reducer';
 import {tasksReducer} from "../features/TodolistsList/tasks-reducer";
 import {applyMiddleware, combineReducers, createStore} from "redux";
@@ -8,7 +9,8 @@ import { todolistsReducer } from "../features/TodolistsList/todolists-reducer";
 const rootReducer = combineReducers({
     todolists: todolistsReducer,
     tasks: tasksReducer,
-    app: appReducer
+    app: appReducer,
+    auth: authReducer
 })
 
 //создаёт тип на основе анализа того что rootReducer возвращает

@@ -1,6 +1,8 @@
+import { SetAppErrorActionType } from './../../app/app-reducer';
 import { TodolistType, todolistsAPI } from './../../api/todolists-api';
 import { Dispatch } from "redux";
 import { RequestStatusType, setAppStatusAC, SetAppStatusActionType } from '../../app/app-reducer';
+import { handleServerNetworkError } from '../../utils/error-utils';
 
 
 
@@ -19,6 +21,7 @@ type ActionsType =
     | ChangeTodolistFilterActionType
     | SetTodolistsActionType
     | SetAppStatusActionType
+    | SetAppErrorActionType
     | ReturnType<typeof changeTodolistEntityStatusAC>
 
 
@@ -92,6 +95,9 @@ export const fetchTodolistsThunkCreator = () => {
             .then((res) => {
                 dispatch(setTodolistsAC(res.data))
                 dispatch(setAppStatusAC('succeeded'))
+            })
+            .catch(error => {
+                handleServerNetworkError(error, dispatch)
             })
     }
 }
