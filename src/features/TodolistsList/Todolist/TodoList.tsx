@@ -29,10 +29,10 @@ console.log("TodoList")
 
 const dispatch = useDispatch()
 
-useEffect( () => {
-    if (demo) {return}
-    dispatch(fetchTasksThunkCreator(props.todolist.id))
-}, [])
+// useEffect( () => {
+//     if (demo) {return}
+//     dispatch(fetchTasksThunkCreator(props.todolist.id))
+// }, [])
 
     const addTask = useCallback((title: string) => {
         props.addTask(props.todolist.id, title)
