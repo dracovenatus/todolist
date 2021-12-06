@@ -14,7 +14,7 @@ import { addTaskThunkCreator, removeTaskThunkCreator, TasksStateType, updateTask
 import { TaskStatuses } from '../../api/todolists-api';
 import { AddItemForm } from '../../components/AddItemForm/AddItemForm';
 import { TodoList } from './Todolist/TodoList';
-import { Redirect } from 'react-router';
+
 
 type PropsType = {
     demo?: boolean
@@ -92,7 +92,7 @@ const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
 
 
     if(!isLoggedIn) {
-        return <Redirect to={'/login'} />
+        // return <Redirect to={'/login'} />
     }
 
 
