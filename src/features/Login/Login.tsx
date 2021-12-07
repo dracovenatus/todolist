@@ -13,6 +13,7 @@ import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { loginTC } from "./auth-reducer";
 import { AppRootStateType } from "../../app/store";
+import { Navigate } from "react-router-dom";
 
 type FormikErrorType = {
   email?: string;
@@ -69,7 +70,7 @@ export const Login = () => {
   });
 
   if (isLoggedIn) {
-    // return <Redirect to={'/'}/>
+     return <Navigate to={'/'}/>
   }
   //preventDefault() - отмени дефолтное поведение сабмита(перезагрузку страницы)
 

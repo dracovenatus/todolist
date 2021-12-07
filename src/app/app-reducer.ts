@@ -1,6 +1,7 @@
 import { setIsLoggedInAC } from './../features/Login/auth-reducer';
 import { Dispatch } from "redux"
 import { authAPI } from "../api/todolists-api"
+import { handleServerAppError, handleServerNetworkError } from '../utils/error-utils';
 
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -40,16 +41,23 @@ export const setAppStatusAC = (status: RequestStatusType) => ({ type: 'APP/SET-S
 export const setAppInitializedAC = (value: boolean) => ({ type: 'APP/SET-IS-INITIALIZED', value } as const)
 
 export const initializeAppTC = () => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC("loading"));
     authAPI.me()
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(setIsLoggedInAC(true))
-            
+                dispatch(setAppStatusAC("succeeded"));
             } else {
-
+                handleServerAppError(res.data, dispatch);
             }
-            dispatch(setAppInitializedAC(true))
         })
+        .catch((error) => {
+            handleServerNetworkError(error, dispatch);
+          })
+          .finally(() => {
+            dispatch(setAppStatusAC("idle"));
+            dispatch(setAppInitializedAC(true));
+          });
 }
 
 export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>
