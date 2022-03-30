@@ -81,7 +81,6 @@ function App({ demo = false }: PropsType) {
           <Route path={"login"} element={<Login />} />
           <Route path={"/"} element={<TodolistsList demo={demo} />} />
           <Route path={"404"} element={<h1>404: page not found</h1>} />
-          {/* звёздочка значит "абсолютно любой путь" */}
           <Route path={"*"} element={<Navigate to="/404" />} />
         </Routes>
       </Container>
