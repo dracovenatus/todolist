@@ -1,25 +1,36 @@
-import { authReducer } from './../features/Login/auth-reducer';
-import { appReducer } from './app-reducer';
-import {tasksReducer} from "../features/TodolistsList/tasks-reducer";
-import {applyMiddleware, combineReducers, createStore} from "redux";
-import thunkMiddleware from 'redux-thunk';
-import { todolistsReducer } from "../features/TodolistsList/todolists-reducer";
+import { configureStore } from "@reduxjs/toolkit";
+import { authReducer, authSlice } from "features/auth/model/authSlice";
+import { Action } from "redux";
+import { ThunkAction } from "redux-thunk";
+import {
+  tasksReducer,
+  tasksSlice,
+} from "../features/todolists/model/tasksSlice";
+import {
+  todolistsReducer,
+  todolistsSlice,
+} from "../features/todolists/model/todolistsSlice";
+import { appReducer, appSlice } from "./appSlice";
 
-//корневой reducer который получает все action-ы и раскидывает дальше по всем редьюсерам
-const rootReducer = combineReducers({
-    todolists: todolistsReducer,
-    tasks: tasksReducer,
-    app: appReducer,
-    auth: authReducer
-})
+export const store = configureStore({
+  reducer: {
+    [tasksSlice.name]: tasksReducer,
+    [todolistsSlice.name]: todolistsReducer,
+    [appSlice.name]: appReducer,
+    [authSlice.name]: authReducer,
+  },
+});
 
-//создаёт тип на основе анализа того что rootReducer возвращает
-export type AppRootStateType = ReturnType<typeof rootReducer>
+export type RootState = ReturnType<typeof store.getState>;
 
-export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
+export type AppDispatch = typeof store.dispatch;
 
-
-
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;
 
 // @ts-ignore
 window.store = store;
