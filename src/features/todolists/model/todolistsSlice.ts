@@ -7,7 +7,7 @@ import { Dispatch } from "redux";
 import { RequestStatus, setAppStatus } from "../../../app/appSlice";
 import { todolistsApi } from "../api/todolistsApi";
 import { Todolist } from "../api/todolistsApi.types";
-import { fetchTasksTC } from "./tasksSlice";
+import { fetchTasks } from "./tasksSlice";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -97,7 +97,7 @@ export const fetchTodolistsTC = (): AppThunk => (dispatch) => {
     })
     .then((todos) => {
       todos.forEach((tl) => {
-        dispatch(fetchTasksTC(tl.id));
+        dispatch(fetchTasks(tl.id));
       });
     })
     .catch((error) => {
