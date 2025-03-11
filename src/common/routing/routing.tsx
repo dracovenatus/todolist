@@ -1,28 +1,27 @@
-import { App } from "app/App"
-import { Main } from "app/Main"
-import { Page404 } from "common/components"
-import { Login } from "features/auth/ui/Login/Login"
-import { createBrowserRouter, RouteObject } from "react-router"
-import { ProtectedRoute } from "./ProtectedRoute"
+import { App } from "app/App";
+import { Main } from "app/Main";
+import { Page404 } from "common/components";
+import { Login } from "features/auth/ui/Login/Login";
+import { createBrowserRouter, RouteObject } from "react-router";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 export const Path = {
-  Main: "/",
+  Main: "/todolist",
   Login: "login",
   NotFound: "*",
-} as const
+} as const;
 
 const privateRoutes: RouteObject[] = [
   {
     path: Path.Main,
     element: <Main />,
   },
-]
+];
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    // errorElement: <Page404 />,
     children: [
       {
         element: <ProtectedRoute />,
@@ -38,14 +37,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
-])
-
-// export const Routing = () => {
-//   return (
-//     <Routes>
-//       <Route path={Path.Main} element={<Main />} />
-//       <Route path={Path.Login} element={<Login />} />
-//       <Route path={Path.NotFound} element={<Page404 />} />
-//     </Routes>
-//   )
-// }
+]);
