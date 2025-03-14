@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router";
 import { Path } from "./routing";
 import { useAppSelector } from "common/hooks";
-import { selectIsLoggedIn } from "features/auth/model/authSlice";
+import { selectIsLoggedIn } from "app/appSlice";
 
 export const ProtectedRoute = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);

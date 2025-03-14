@@ -3,24 +3,28 @@ import { ThemeProvider } from "@mui/material/styles";
 import { Header, ErrorSnackbar } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getTheme } from "common/theme";
-import { useEffect } from "react";
-import {
-  initializeAppTC,
-  selectIsInitialized,
-} from "features/auth/model/authSlice";
+import { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
 import s from "./App.module.css";
 import { Outlet } from "react-router";
-import { selectThemeMode } from "./appSlice";
+import { selectThemeMode, setIsLoggedIn } from "./appSlice";
+import { useMeQuery } from "features/auth/api/authApi";
+import { ResultCode } from "common/enums";
 
 export const App = () => {
+  const [isInitialized, setIsInitialized] = useState(false);
   const themeMode = useAppSelector(selectThemeMode);
-  const isInitialized = useAppSelector(selectIsInitialized);
+  const { data, isLoading } = useMeQuery();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(initializeAppTC());
-  }, []);
+    if (!isLoading) {
+      setIsInitialized(true);
+      if (data?.resultCode === ResultCode.Success) {
+        dispatch(setIsLoggedIn({ isLoggedIn: true }));
+      }
+    }
+  }, [isLoading, data, dispatch]);
 
   if (!isInitialized) {
     return (

@@ -8,15 +8,20 @@ import React from "react";
 import {
   changeTheme,
   selectAppStatus,
+  selectIsLoggedIn,
   selectThemeMode,
+  setIsLoggedIn,
 } from "../../../app/appSlice";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getTheme } from "common/theme";
-
-import { logoutTC, selectIsLoggedIn } from "features/auth/model/authSlice";
 import { MenuButton } from "../MenuButton/MenuButton";
+import { useLogoutMutation } from "features/auth/api/authApi";
+import { ResultCode } from "common/enums";
+import { clearTasks } from "features/todolists/model/tasksSlice";
+import { clearTodolists } from "features/todolists/model/todolistsSlice";
 
 export const Header = () => {
+  const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -32,6 +37,17 @@ export const Header = () => {
     );
   };
 
+  const logoutHandler = () => {
+    logout().then((res) => {
+      if (res.data?.resultCode === ResultCode.Success) {
+        dispatch(setIsLoggedIn({ isLoggedIn: false }));
+        localStorage.removeItem("sn-token");
+        dispatch(clearTasks());
+        dispatch(clearTodolists());
+      }
+    });
+  };
+
   return (
     <AppBar position="static" sx={{ mb: "30px" }}>
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -40,7 +56,7 @@ export const Header = () => {
         </IconButton>
         <div>
           {isLoggedIn && (
-            <MenuButton onClick={() => dispatch(logoutTC())}>Logout</MenuButton>
+            <MenuButton onClick={logoutHandler}>Logout</MenuButton>
           )}
           <MenuButton background={theme.palette.primary.dark}>Faq</MenuButton>
           <Switch color={"default"} onChange={changeModeHandler} />
